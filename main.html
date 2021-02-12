@@ -1,0 +1,587 @@
+<html>
+<html id="html">
+<style>
+/* root */
+
+@keyframes glowing {
+  from {
+    box-shadow: 0 0 300px rgba(0, 255, 255, 0.2) inset;
+  }
+  to {
+    box-shadow: 0 0 320px rgba(0, 255, 255, 0.5) inset;
+  }
+}
+html {
+  background: #111117;
+  box-shadow: 0 0 300px rgba(0, 255, 255, 0.2) inset;
+  animation-name: glowing;
+  animation-duration: 5s;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  position: relative;
+}
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* clearfix */
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+/* grid */
+
+.grid {
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-width: 1px 0 0 1px;
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.grid div {
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-width: 0 1px 1px 0;
+  float: left;
+  z-index: 0;
+  position: relative;
+}
+.grid div:before,
+.grid div:after {
+  content: "";
+  background: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  pointer-events: none;
+  display: none;
+}
+.grid div:before {
+  top: -1px;
+  bottom: -1px;
+  width: 200vw;
+  left: -100vw;
+}
+.grid div:after {
+  left: -1px;
+  right: -1px;
+  height: 200vw;
+  top: -100vw;
+}
+.grid div:hover:before,
+.grid div:hover:after {
+  display: block;
+}
+
+/* scrollbar */
+
+body::-webkit-scrollbar {
+  width: 0.5em;
+}
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px white;
+}
+body::-webkit-scrollbar-track:hover {
+  box-shadow: 0 0 6px aqua;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: aqua;
+  outline: 1px solid blue;
+}
+
+/* title */
+
+#title {
+  color: white;
+  text-align: center;
+  font-size: 70px;
+  font-family: monospace;
+  text-indent: -99999px;
+  background-image: url("icon.png");
+  background-size: 10%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 150px;
+}
+header:after {
+  width: 100%;
+  height: 50px;
+  background-image: url("https://i.imgur.com/9EfnzaH.png");
+  background-repeat: no-repeat;
+  background-position: center 0px;
+}
+
+/* filters */
+
+#filters {
+  display: block;
+  width: 90%;
+  margin: 20px auto;
+}
+
+/* range slider */
+
+input[type="range"] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 100%; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+  margin: 20px auto;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+input[type="range"]:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+input[type="range"]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  /* Hides the slider so custom styles can be added */
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+/* Special styling for WebKit/Blink */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 30px;
+  width: 10px;
+  border-radius: 4px;
+  background: rgba(0, 255, 255, 0.5);
+  cursor: pointer;
+  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  transition: 0.3s all;
+}
+input[type="range"]::-webkit-slider-thumb:hover,
+input[type="range"]::-webkit-slider-thumb:active {
+  box-shadow: 0 0 5px aqua inset;
+}
+/* All the same stuff for Firefox */
+input[type="range"]::-moz-range-thumb {
+  border: none;
+  height: 20px;
+  width: 10px;
+  border-radius: 4px;
+  background: rgba(0, 255, 255, 0.5);
+  cursor: pointer;
+  transition: 0.3s all;
+}
+/* All the same stuff for IE */
+input[type="range"]::-ms-thumb {
+  border: none;
+  height: 20px;
+  width: 10px;
+  border-radius: 4px;
+  background: rgba(0, 255, 255, 0.5);
+  cursor: pointer;
+  transition: 0.3s all;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+  transition: 0.3s all;
+}
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 20px aqua;
+}
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type="range"]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type="range"]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+}
+input[type="range"]:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type="range"]::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+}
+input[type="range"]:focus::-ms-fill-upper {
+  background: #367ebd;
+}
+
+/* menu */
+
+.menu {
+  z-index: 20;
+}
+.menu nav {
+  display: block;
+  width: 90%;
+  height: 50px;
+  margin: 0 auto;
+  border: 1px solid red;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 4px;
+  z-index: 20;
+  transition: all 0.3s;
+}
+.menu nav:hover {
+  box-shadow: inset 0 0 20px red;
+}
+.menu nav ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: 80%;
+  height: 50px;
+  text-align: center;
+  position: relative;
+}
+.menu nav ul li {
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  line-height: 3;
+  position: relative;
+}
+.menu nav ul li a {
+  text-decoration: none;
+  color: rgba(0, 255, 255, 0.5);
+  font-family: verdana, sans-serif;
+  display: block;
+}
+.menu nav ul li:hover > a {
+  color: white;
+  background: rgba(0, 255, 255, 0.1);
+}
+.menu nav ul li:hover .sub1,
+.menu .sub1 li:hover .sub2 {
+  display: block;
+}
+.menu .sub1 {
+  position: absolute;
+  top: 50px;
+  z-index: 500;
+  width: 100px;
+  display: none;
+}
+.menu .sub1 > li,
+.menu .sub2 > li {
+  background: rgba(0, 255, 255, 0.1);
+}
+.menu .sub1 li:hover > a,
+.menu .sub2 li:hover > a {
+  box-shadow: inset 0 0 5px aqua;
+  background: rgba(0, 0, 0, 0.9);
+}
+.menu .sub2 {
+  position: absolute;
+  top: 0;
+  left: 100px;
+  z-index: 500;
+  width: 100px;
+  display: none;
+}
+.menu .sub2 > li {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+/* section */
+
+section {
+  margin: 0 auto;
+  width: 100%;
+}
+section:after {
+  width: 100%;
+  height: 50px;
+  background-image: url("https://i.imgur.com/9EfnzaH.png");
+  background-repeat: no-repeat;
+  background-position: center 0px;
+}
+p {
+  text-align: center;
+}
+
+/* buttons */
+
+.btn {
+  user-select: none;
+  z-index: 10;
+}
+.btn:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+/* A */
+
+#A .btn {
+  display: inline-block;
+  width: 20%;
+  height: 80px;
+  margin: 1% 3%;
+}
+
+/* alert */
+
+#alert {
+  display: block;
+  width: 40%;
+  height: 300px;
+  box-sizing: border-box;
+  margin: 10px auto;
+  position: relative;
+  transition: 0.3s all;
+  opacity: 0;
+}
+#alert:after {
+  width: 100%;
+  height: 300px;
+  background-color: transparent;
+  background-image: url("https://i.imgur.com/y5t06EV.png"),
+    url("https://i.imgur.com/V3bIa4c.png");
+  background-size: 80px 80px, 100% 100%;
+  background-position: 90% 50%, center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: 0.3s all;
+}
+#alert p {
+  color: aqua;
+  width: 80%;
+  height: 70%;
+  margin: 20px;
+  padding: 20px;
+  text-align: left;
+  font-family: monospace;
+}
+#alert:hover {
+  opacity: 1;
+}
+#alert:hover:after {
+  opacity: 0.5;
+}
+
+/* Thanks for Watching */
+
+#thanks {
+  color: white;
+  text-align: center;
+  font-size: 70px;
+  font-family: monospace;
+  text-indent: -99999px;
+  background-image: url("https://i.imgur.com/OURidbn.png");
+  background-size: 30%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 150px;
+}
+
+/* contact */
+
+footer {
+  display: block;
+  width: 90%;
+  height: 50px;
+  margin: 10px auto;
+  border: 1px solid red;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  z-index: 20;
+  transition: all 0.3s;
+}
+footer:hover {
+  box-shadow: inset 0 0 20px red;
+}
+footer p {
+  color: rgba(0, 255, 255, 0.5);
+  font-family: verdana, sans-serif;
+}
+footer p a {
+  color: rgba(0, 255, 255, 0.5);
+  text-decoration: none;
+  font-family: verdana, sans-serif;
+  transition: all 0.3s;
+}
+footer p a:hover {
+  color: rgba(0, 255, 255, 1);
+}
+#contact {
+  text-align: left;
+  float: left;
+  margin-left: 30%;
+}
+#website {
+  text-align: right;
+  float: right;
+  margin-right: 30%;
+}
+
+</style>
+<script>
+//filters
+//hue
+function hueFunction(hueVal) {
+  apply_filter("hue-rotate", hueVal + "deg");
+}
+//blur
+function blurFunction(blurVal) {
+  apply_filter("blur", blurVal + "px");
+}
+//grayscale
+function grayscaleFunction(grayscaleVal) {
+  apply_filter("grayscale", grayscaleVal + "%");
+}
+//invert
+function invertFunction(invertVal) {
+  apply_filter("invert", invertVal + "%");
+}
+var apply_filter = function (fil, val) {
+  var filter = document
+    .getElementById("html")
+    .style.filter.trim()
+    .split(" ")
+    .filter(function (a) {
+      return a.trim();
+    });
+  var f = false;
+  filter.forEach(function (v, i) {
+    if (v.indexOf(fil) === 0) {
+      filter[i] = fil + "(" + val + ")";
+      f = true;
+    }
+  });
+  if (f === false) filter.push(fil + "(" + val + ")");
+  document.getElementById("html").style.filter = filter.join(" ");
+};
+$(document).ready(function () {
+  /*
+  //DOOM 3 UI Grid
+  //prepare grid size
+  function createGrid(size) {
+    var ratioW = Math.floor($( document ).width()/size),
+        ratioH = Math.floor($( document ).height()/size);
+    //prepare container
+    var parent = $('<div />', {
+        class: 'grid',
+        width: ratioW  * size,
+        height: ratioH  * size
+    }).addClass('grid').appendTo('html');
+    //loop single lines
+    for (var i = 0; i < ratioH; i++) {
+        for(var p = 0; p < ratioW; p++){
+            $('<div />', {
+                width: size - 1,
+                height: size - 1
+            }).appendTo(parent);
+        }
+    }
+  }
+  //create grid
+  createGrid(50);
+  */
+  //stycky menu
+  $(".menu")
+    .addClass("original")
+    .clone()
+    .insertAfter(".menu")
+    .addClass("cloned")
+    .css("position", "fixed")
+    .css("top", "0")
+    .css("margin-top", "10px")
+    .css("z-index", "500")
+    .removeClass("original")
+    .hide();
+
+  scrollIntervalID = setInterval(stickIt, 10);
+
+  function stickIt() {
+    var orgElementPos = $(".original").offset();
+    orgElementTop = orgElementPos.top;
+    if ($(window).scrollTop() >= orgElementTop) {
+      // scrolled past the original position;
+      //now only show the cloned, sticky element.
+      // Cloned element should always have same
+      //left position and width as original element.
+      orgElement = $(".original");
+      coordsOrgElement = orgElement.offset();
+      leftOrgElement = coordsOrgElement.left;
+      widthOrgElement = orgElement.css("width");
+      $(".cloned")
+        .css("left", leftOrgElement + "px")
+        .css("top", "0")
+        .css("width", widthOrgElement)
+        .show();
+      $(".cloned nav").css("background", "rgba(0,0,0,0.9)");
+      $(".original").css("visibility", "hidden");
+    } else {
+      // not scrolled past the menu;
+      //only show the original menu.
+      $(".cloned").hide();
+      $(".original").css("visibility", "visible");
+    }
+  }
+});
+$(window).load(function () {});
+</script>
+<body>
+
+  <header class="clearfix">
+    <h1 id="title">MDEC PAGE</h1>
+  </header>
+
+  <section id="alert" class="clearfix">
+    <p>
+      WARNING!</br>
+      System error ////<img src="icon.png" width="50" height="50"/></br></br>
+      System collapse -> G O V E R M E N T  A C C E S S</br>
+      ///////////////////////////////////////////////
+    </p>
+  </section>
+  </div>
+
+  <footer>
+<center>
+    <p>
+      <span id="contact">contact dev:
+        <a href="mailto:razorlex1995@gmail.com">razorlex1995@gmail.com
+        </a>
+      </span>
+      <span id="website">website:
+        <a href="https://mdec.my/">MDEC 
+        </a>
+      </span>
+    </p>
+</center>
+  </footer>
+
+</body>
+
+</html>
