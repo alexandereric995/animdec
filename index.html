@@ -312,4 +312,127 @@ setInterval(() => {
   <a target="link" href="https://mdec.my/">MDEC MALAYSIA</a>
   <br />
 </p>
+<center>
+<hr>
+    <div id="app"></div>
+
+
+<script>
+
+"use strict"
+const extend = (state, ext) => Object.assign({}, state, ext)
+//////////////////////////////////////////////////////////////////////////
+//
+//  Reducers
+//
+
+const COUNTER_MAX = 10 ;
+
+var initialState = {
+  counter: COUNTER_MAX,
+  started: false,
+  launched: false,
+  aborted: false
+}
+
+
+function reducer(state, action) {
+  if(state === undefined)
+    return initialState
+
+  switch (action.type) {
+    case 'START':
+      return extend(initialState, { counter: COUNTER_MAX, started: true })
+    case 'DECREMENT':
+      return extend(state, { counter: state.counter - 1 })
+    case 'ABORT':
+      return extend(state, { started: false, aborted: true })
+    case 'LAUNCH':
+      return extend(state, { started: false, launched: true })
+    default:
+      return state
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////
+//
+//  Sagas
+//
+
+const io = ReduxSaga.effects
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+function* rocketLauncherSaga() {
+  yield io.take('START')
+  for(let i = 0; i < COUNTER_MAX; i++) {
+    const winner = yield io.race({
+      decrement: io.call(delay, 1000),
+      abort    : io.take('ABORT')
+    })
+    if(winner.abort)
+      return
+
+    yield io.put({type: 'DECREMENT'})
+  }
+  yield io.put({type: 'LAUNCH'})
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+//  View
+//
+
+const renderCounting = (model) => (`
+	<p>Counter ${model.started ? "down" : ""} : ${model.counter}</p>
+	<form onSubmit="JavaScript:return actions.${model.started ? "abort()" : "start()"};">
+		<input type="submit" value="${model.started ? "Abort" : "Start"}">
+	</form>
+`)
+const renderAborted = (model) => `<p>Aborted at Counter: ${model.counter}</p>`
+const renderLaunched = (model) => (`<p>Launched</p>`)
+const renderMain = (model) => (
+    model.launched    ? renderLaunched(model)
+  : model.aborted     ? renderAborted(model)
+  : renderCounting(model)
+)
+
+////////////////////////////////////////////////////////////////
+//
+// actions
+//
+
+const formAction =  type => {
+  store.dispatch({type: type})
+  return false
+}
+const actions = {
+  start: () => formAction('START'),
+  abort: () => formAction('ABORT')
+}
+
+////////////////////////////////////////////////////////////////
+//
+// Setup
+//
+
+const createSagaMiddleware = ReduxSaga.default
+var store = Redux.createStore(
+  reducer,
+  Redux.applyMiddleware(createSagaMiddleware(rocketLauncherSaga))
+)
+
+var el = document.getElementById("app");
+function display() {
+  el.innerHTML = renderMain(store.getState())
+}
+
+store.subscribe(() => display())
+display()
+
+
+</script>
+
+  </body>
+</center>
 </html>
